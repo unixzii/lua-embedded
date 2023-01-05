@@ -2,6 +2,7 @@
 ** $Id: lua.h $
 ** Lua - A Scripting Language
 ** Lua.org, PUC-Rio, Brazil (http://www.lua.org)
+** Modified by Cyandev (unixzii@gmail.com)
 ** See Copyright Notice at the end of this file
 */
 
@@ -493,6 +494,7 @@ struct lua_Debug {
 
 /******************************************************************************
 * Copyright (C) 1994-2022 Lua.org, PUC-Rio.
+* Copyright (C) 2022-2023 Cyandev <unixzii@gmail.com>.
 *
 * Permission is hereby granted, free of charge, to any person obtaining
 * a copy of this software and associated documentation files (the
