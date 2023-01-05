@@ -55,6 +55,8 @@ typedef	unsigned long clock_t;
   LUAEM_API_DEF_EMIT(char *, strpbrk, (const char *s, const char *c), (s, c)) \
   LUAEM_API_DEF_EMIT(int, setjmp, (luaEm_jmp_buf *env), (env)) \
   LUAEM_API_DEF_EMIT(void, longjmp, (luaEm_jmp_buf *env, int status), (env, status)) \
+  LUAEM_API_DEF_EMIT(void *, realloc, (void *ptr, size_t size), (ptr, size)) \
+  LUAEM_API_DEF_EMIT(void, free, (void *ptr), (ptr)) \
   LUAEM_API_DEF_EMIT(void, vwritestringerror, (const char *fmt, va_list ap), (fmt, ap))
 
 typedef struct luaEm_API {

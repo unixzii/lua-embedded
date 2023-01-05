@@ -13,7 +13,6 @@
 #include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 
@@ -1017,11 +1016,11 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s,
 static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
   (void)ud; (void)osize;  /* not used */
   if (nsize == 0) {
-    free(ptr);
+    luaEm_free(ptr);
     return NULL;
   }
   else
-    return realloc(ptr, nsize);
+    return luaEm_realloc(ptr, nsize);
 }
 
 
