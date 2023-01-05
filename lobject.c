@@ -10,7 +10,6 @@
 #include "lprefix.h"
 
 
-#include <locale.h>
 #include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -19,6 +18,7 @@
 
 #include "lua.h"
 
+#include "lembed.h"
 #include "lctype.h"
 #include "ldebug.h"
 #include "ldo.h"
@@ -227,8 +227,9 @@ static lua_Number lua_strx2number (const char *s, char **endptr) {
 */
 static const char *l_str2dloc (const char *s, lua_Number *result, int mode) {
   char *endptr;
-  *result = (mode == 'x') ? lua_strx2number(s, &endptr)  /* try to convert */
-                          : lua_str2number(s, &endptr);
+  // TODO: in most case, strtod does the hexadecimal conversion, so we will
+  // not use 'lua_strx2number' anymore.
+  *result = luaEm_str2number(s, endptr);  /* try to convert */
   if (endptr == s) return NULL;  /* nothing recognized? */
   while (lisspace(cast_uchar(*endptr))) endptr++;  /* skip trailing spaces */
   return (*endptr == '\0') ? endptr : NULL;  /* OK iff no trailing chars */
@@ -250,7 +251,7 @@ static const char *l_str2dloc (const char *s, lua_Number *result, int mode) {
 */
 static const char *l_str2d (const char *s, lua_Number *result) {
   const char *endptr;
-  const char *pmode = strpbrk(s, ".xXnN");  /* look for special chars */
+  const char *pmode = luaEm_strpbrk(s, ".xXnN");  /* look for special chars */
   int mode = pmode ? ltolower(cast_uchar(*pmode)) : 0;
   if (mode == 'n')  /* reject 'inf' and 'nan' */
     return NULL;

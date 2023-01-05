@@ -4,6 +4,8 @@
 ** See Copyright Notice in lua.h
 */
 
+#ifdef LUAEM_HAS_IOLIB
+
 #define liolib_c
 #define LUA_LIB
 
@@ -19,6 +21,7 @@
 
 #include "lua.h"
 
+#include "lembed.h"
 #include "lauxlib.h"
 #include "lualib.h"
 
@@ -826,3 +829,4 @@ LUAMOD_API int luaopen_io (lua_State *L) {
   return 1;
 }
 
+#endif

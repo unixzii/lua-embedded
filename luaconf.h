@@ -400,7 +400,11 @@
 
 /* The following definitions are good for most cases here */
 
-#define l_floor(x)		(l_mathop(floor)(x))
+#define l_floor(x)		((luaEm_APIImpl->l_mathop(floor))(x))
+#define l_pow(a, b)		((luaEm_APIImpl->l_mathop(pow))(a, b))
+#define l_fmod(a, b)	((luaEm_APIImpl->l_mathop(fmod))(a, b))
+#define l_ldexp(a, b)	((luaEm_APIImpl->l_mathop(ldexp))(a, b))
+#define l_frexp(x, i)	((luaEm_APIImpl->l_mathop(frexp))(x, i))
 
 #define lua_number2str(s,sz,n)  \
 	l_sprintf((s), sz, LUA_NUMBER_FMT, (LUAI_UACNUMBER)(n))
@@ -644,16 +648,6 @@
 #undef LUA_KCONTEXT
 #define LUA_KCONTEXT	intptr_t
 #endif
-#endif
-
-
-/*
-@@ lua_getlocaledecpoint gets the locale "radix character" (decimal point).
-** Change that if you do not want to use C locales. (Code using this
-** macro must include the header 'locale.h'.)
-*/
-#if !defined(lua_getlocaledecpoint)
-#define lua_getlocaledecpoint()		(localeconv()->decimal_point[0])
 #endif
 
 

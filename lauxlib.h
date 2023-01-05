@@ -12,6 +12,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#include "lembed.h"
 #include "luaconf.h"
 #include "lua.h"
 
@@ -267,8 +268,15 @@ typedef struct luaL_Stream {
 
 /* print an error message */
 #if !defined(lua_writestringerror)
+l_sinline void lua_writestringerror_fwd(const char *fmt, ...) {
+  va_list ap;
+	va_start(ap, fmt);
+	luaEm_vwritestringerror(fmt, ap);
+	va_end(ap);
+}
+
 #define lua_writestringerror(s,p) \
-        (fprintf(stderr, (s), (p)), fflush(stderr))
+        (lua_writestringerror_fwd((s), (p)))
 #endif
 
 /* }================================================================== */

@@ -16,6 +16,7 @@
 
 #include "lua.h"
 
+#include "lembed.h"
 #include "lauxlib.h"
 #include "lualib.h"
 
@@ -244,8 +245,8 @@ typedef unsigned int IdxT;
 ** is to copy them to an array of a known type and use the array values.
 */
 static unsigned int l_randomizePivot (void) {
-  clock_t c = clock();
-  time_t t = time(NULL);
+  clock_t c = luaEm_clock();
+  time_t t = luaEm_time(NULL);
   unsigned int buff[sof(c) + sof(t)];
   unsigned int i, rnd = 0;
   memcpy(buff, &c, sof(c) * sizeof(unsigned int));

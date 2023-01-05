@@ -122,7 +122,11 @@ struct lua_longjmp;  /* defined in ldo.c */
 ** is thread safe
 */
 #if !defined(l_signalT)
+#if __has_include(<signal.h>)
 #include <signal.h>
+#else
+typedef int sig_atomic_t;
+#endif
 #define l_signalT	sig_atomic_t
 #endif
 

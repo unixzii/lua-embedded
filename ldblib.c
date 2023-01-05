@@ -4,6 +4,8 @@
 ** See Copyright Notice in lua.h
 */
 
+#ifdef LUAEM_HAS_DBLIB
+
 #define ldblib_c
 #define LUA_LIB
 
@@ -481,3 +483,4 @@ LUAMOD_API int luaopen_debug (lua_State *L) {
   return 1;
 }
 
+#endif

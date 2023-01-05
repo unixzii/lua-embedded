@@ -28,6 +28,7 @@
 
 #include "lua.h"
 
+#include "lembed.h"
 #include "ldebug.h"
 #include "ldo.h"
 #include "lgc.h"
@@ -131,7 +132,7 @@ static Node *hashint (const Table *t, lua_Integer i) {
 static int l_hashfloat (lua_Number n) {
   int i;
   lua_Integer ni;
-  n = l_mathop(frexp)(n, &i) * -cast_num(INT_MIN);
+  n = l_frexp(n, &i) * -cast_num(INT_MIN);
   if (!lua_numbertointeger(n, &ni)) {  /* is 'n' inf/-inf/NaN? */
     lua_assert(luai_numisnan(n) || l_mathop(fabs)(n) == cast_num(HUGE_VAL));
     return 0;

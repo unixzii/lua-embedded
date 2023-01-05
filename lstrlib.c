@@ -13,7 +13,6 @@
 #include <ctype.h>
 #include <float.h>
 #include <limits.h>
-#include <locale.h>
 #include <math.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -22,6 +21,8 @@
 
 #include "lua.h"
 
+#include "lembed.h"
+#include "llimits.h"
 #include "lauxlib.h"
 #include "lualib.h"
 
@@ -746,7 +747,7 @@ static int push_captures (MatchState *ms, const char *s, const char *e) {
 static int nospecials (const char *p, size_t l) {
   size_t upto = 0;
   do {
-    if (strpbrk(p + upto, SPECIALS))
+    if (luaEm_strpbrk(p + upto, SPECIALS))
       return 0;  /* pattern has a special character */
     upto += strlen(p + upto) + 1;  /* may have more after \0 */
   } while (upto <= l);
@@ -1014,7 +1015,7 @@ static int str_gsub (lua_State *L) {
 ** Add integer part of 'x' to buffer and return new 'x'
 */
 static lua_Number adddigit (char *buff, int n, lua_Number x) {
-  lua_Number dd = l_mathop(floor)(x);  /* get integer part from 'x' */
+  lua_Number dd = l_floor(x);  /* get integer part from 'x' */
   int d = (int)dd;
   buff[n] = (d < 10 ? d + '0' : d - 10 + 'a');  /* add to buffer */
   return x - dd;  /* return what is left */

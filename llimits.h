@@ -13,6 +13,7 @@
 
 
 #include "lua.h"
+#include "lembed.h"
 
 
 /*
@@ -318,14 +319,14 @@ typedef l_uint32 Instruction;
 */
 #if !defined(luai_nummod)
 #define luai_nummod(L,a,b,m)  \
-  { (void)L; (m) = l_mathop(fmod)(a,b); \
+  { (void)L; (m) = l_fmod(a,b); \
     if (((m) > 0) ? (b) < 0 : ((m) < 0 && (b) > 0)) (m) += (b); }
 #endif
 
 /* exponentiation */
 #if !defined(luai_numpow)
 #define luai_numpow(L,a,b)  \
-  ((void)L, (b == 2) ? (a)*(a) : l_mathop(pow)(a,b))
+  ((void)L, (b == 2) ? (a)*(a) : l_pow(a,b))
 #endif
 
 /* the others are quite standard operations */

@@ -18,6 +18,8 @@
 
 #include "lua.h"
 
+#include "lembed.h"
+#include "llimits.h"
 #include "lauxlib.h"
 #include "lualib.h"
 
@@ -96,7 +98,7 @@ static int math_floor (lua_State *L) {
   if (lua_isinteger(L, 1))
     lua_settop(L, 1);  /* integer is its own floor */
   else {
-    lua_Number d = l_mathop(floor)(luaL_checknumber(L, 1));
+    lua_Number d = l_floor(luaL_checknumber(L, 1));
     pushnumint(L, d);
   }
   return 1;
@@ -144,7 +146,7 @@ static int math_modf (lua_State *L) {
   else {
     lua_Number n = luaL_checknumber(L, 1);
     /* integer part (rounds toward zero) */
-    lua_Number ip = (n < 0) ? l_mathop(ceil)(n) : l_mathop(floor)(n);
+    lua_Number ip = (n < 0) ? l_mathop(ceil)(n) : l_floor(n);
     pushnumint(L, ip);
     /* fractional part (test needed for inf/-inf) */
     lua_pushnumber(L, (n == ip) ? l_mathop(0.0) : (n - ip));

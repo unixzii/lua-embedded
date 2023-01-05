@@ -369,8 +369,8 @@ void luaV_finishset (lua_State *L, const TValue *t, TValue *key,
 ** Compare two strings 'ls' x 'rs', returning an integer less-equal-
 ** -greater than zero if 'ls' is less-equal-greater than 'rs'.
 ** The code is a little tricky because it allows '\0' in the strings
-** and it uses 'strcoll' (to respect locales) for each segments
-** of the strings.
+** and it uses 'strcmp' instead of 'strcoll' (for better portability)
+** for each segments of the strings.
 */
 static int l_strcmp (const TString *ls, const TString *rs) {
   const char *l = getstr(ls);
@@ -378,7 +378,7 @@ static int l_strcmp (const TString *ls, const TString *rs) {
   const char *r = getstr(rs);
   size_t lr = tsslen(rs);
   for (;;) {  /* for each segment */
-    int temp = strcoll(l, r);
+    int temp = strcmp(l, r);
     if (temp != 0)  /* not equal? */
       return temp;  /* done */
     else {  /* strings are equal up to a '\0' */

@@ -2,15 +2,6 @@
 * one.c -- Lua core, libraries, and interpreter in a single file
 */
 
-/* default is to build the full interpreter */
-#ifndef MAKE_LIB
-#ifndef MAKE_LUAC
-#ifndef MAKE_LUA
-#define MAKE_LUA
-#endif
-#endif
-#endif
-
 /* choose suitable platform-specific features */
 /* some of these may need extra libraries such as -ldl -lreadline -lncurses */
 #if 0
@@ -23,22 +14,6 @@
 /* no need to change anything below this line ----------------------------- */
 
 #include "lprefix.h"
-
-#include <assert.h>
-#include <ctype.h>
-#include <errno.h>
-#include <float.h>
-#include <limits.h>
-#include <locale.h>
-#include <math.h>
-#include <setjmp.h>
-#include <signal.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 
 
 /* setup for luaconf.h */
