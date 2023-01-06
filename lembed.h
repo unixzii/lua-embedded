@@ -58,11 +58,6 @@ typedef	unsigned long clock_t;
 #define LUA_MATH_LDEXP l_mathop(ldexp)
 #define LUA_MATH_FREXP l_mathop(frexp)
 
-// Workaround:
-// Some platforms has macro definition of setjmp, just undef
-// it since we don't use it directly.
-#undef setjmp
-
 #define LUAEM_API_DEFS \
   LUAEM_API_DEF_EMIT(char, getlocaledecpoint, (void), ()) \
   LUAEM_API_DEF_EMIT(clock_t, clock, (void), ()) \
@@ -85,8 +80,8 @@ typedef	unsigned long clock_t;
   LUAEM_API_DEF_EMIT(double, LUA_MATH_FREXP, (double a, int *b), (a, b)) \
   LUAEM_API_DEF_EMIT(LUA_NUMBER, str2number, (const char *s, char *endptr), (s, endptr)) \
   LUAEM_API_DEF_EMIT(char *, strpbrk, (const char *s, const char *c), (s, c)) \
-  LUAEM_API_DEF_EMIT(int, setjmp, (luaEm_jmp_buf *env), (env)) \
-  LUAEM_API_DEF_EMIT(void, longjmp, (luaEm_jmp_buf *env, int status), (env, status)) \
+  LUAEM_API_DEF_EMIT(int, save_context, (luaEm_jmp_buf *env), (env)) \
+  LUAEM_API_DEF_EMIT(void, restore_context, (luaEm_jmp_buf *env, int status), (env, status)) \
   LUAEM_API_DEF_EMIT(void *, realloc, (void *ptr, size_t size), (ptr, size)) \
   LUAEM_API_DEF_EMIT(void, free, (void *ptr), (ptr)) \
   LUAEM_API_DEF_EMIT(void, vwritestringerror, (const char *fmt, va_list ap), (fmt, ap)) \

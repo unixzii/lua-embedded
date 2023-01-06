@@ -70,8 +70,8 @@
 #else							/* }{ */
 
 /* ISO C handling with long jumps */
-#define LUAI_THROW(L,c)		luaEm_longjmp(&(c)->b, 1)
-#define LUAI_TRY(L,c,a)		if (luaEm_setjmp(&(c)->b) == 0) { a }
+#define LUAI_THROW(L,c)		luaEm_restore_context(&(c)->b, 1)
+#define LUAI_TRY(L,c,a)		if (luaEm_APIImpl->save_context(&(c)->b) == 0) { a }
 #define luai_jmpbuf		luaEm_jmp_buf
 
 #endif							/* } */

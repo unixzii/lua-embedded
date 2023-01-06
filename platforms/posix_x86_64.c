@@ -6,13 +6,6 @@
 #include <locale.h>
 #include <setjmp.h>
 
-#ifdef setjmp
-#define HAS_PREDEFINED_SETJMP
-static inline int __orig_setjmp(jmp_buf __env) {
-  return setjmp(__env);
-}
-#endif
-
 #include "lembed.h"
 
 static char getlocaledecpoint_imp() {
@@ -99,16 +92,13 @@ char *strpbrk_imp(const char *s, const char *c) {
   return strpbrk(s, c);
 }
 
-int setjmp_imp(luaEm_jmp_buf *env) {
-#ifdef HAS_PREDEFINED_SETJMP
-  int status = __orig_setjmp((void *) env);
-#else
-  int status = setjmp((void *) env);
-#endif
-  return status;
+__attribute__((naked)) int save_context_imp(luaEm_jmp_buf *env) {
+  asm ("jmpq *%0"
+    :
+    : "rax"(&setjmp));
 }
 
-void longjmp_imp(luaEm_jmp_buf *env, int status) {
+void restore_context_imp(luaEm_jmp_buf *env, int status) {
   longjmp((void *) env, status);
 }
 
@@ -154,8 +144,8 @@ static luaEm_API table = {
   .frexp = &frexp_imp,
   .str2number = &str2number_imp,
   .strpbrk = &strpbrk_imp,
-  .setjmp = &setjmp_imp,
-  .longjmp = &longjmp_imp,
+  .save_context = &save_context_imp,
+  .restore_context = &restore_context_imp,
   .realloc = &realloc_imp,
   .free = &free_imp,
   .vwritestringerror = &vwritestringerror_imp,
