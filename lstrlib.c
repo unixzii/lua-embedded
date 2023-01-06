@@ -7,6 +7,8 @@
 #define lstrlib_c
 #define LUA_LIB
 
+#ifdef LUAEM_HAS_STRLIB
+
 #include "lprefix.h"
 
 
@@ -1873,3 +1875,4 @@ LUAMOD_API int luaopen_string (lua_State *L) {
   return 1;
 }
 
+#endif

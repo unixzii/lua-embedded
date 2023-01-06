@@ -34,40 +34,43 @@ static int math_abs (lua_State *L) {
     if (n < 0) n = (lua_Integer)(0u - (lua_Unsigned)n);
     lua_pushinteger(L, n);
   }
-  else
-    lua_pushnumber(L, l_mathop(fabs)(luaL_checknumber(L, 1)));
+  else {
+    LUA_NUMBER n = luaL_checknumber(L, 1);
+    if (n < 0) n = -n;
+    lua_pushnumber(L, n);
+  }
   return 1;
 }
 
 static int math_sin (lua_State *L) {
-  lua_pushnumber(L, l_mathop(sin)(luaL_checknumber(L, 1)));
+  lua_pushnumber(L, (luaEm_APIImpl->l_mathop(sin))(luaL_checknumber(L, 1)));
   return 1;
 }
 
 static int math_cos (lua_State *L) {
-  lua_pushnumber(L, l_mathop(cos)(luaL_checknumber(L, 1)));
+  lua_pushnumber(L, (luaEm_APIImpl->l_mathop(cos))(luaL_checknumber(L, 1)));
   return 1;
 }
 
 static int math_tan (lua_State *L) {
-  lua_pushnumber(L, l_mathop(tan)(luaL_checknumber(L, 1)));
+  lua_pushnumber(L, (luaEm_APIImpl->l_mathop(tan))(luaL_checknumber(L, 1)));
   return 1;
 }
 
 static int math_asin (lua_State *L) {
-  lua_pushnumber(L, l_mathop(asin)(luaL_checknumber(L, 1)));
+  lua_pushnumber(L, (luaEm_APIImpl->l_mathop(asin))(luaL_checknumber(L, 1)));
   return 1;
 }
 
 static int math_acos (lua_State *L) {
-  lua_pushnumber(L, l_mathop(acos)(luaL_checknumber(L, 1)));
+  lua_pushnumber(L, (luaEm_APIImpl->l_mathop(acos))(luaL_checknumber(L, 1)));
   return 1;
 }
 
 static int math_atan (lua_State *L) {
   lua_Number y = luaL_checknumber(L, 1);
   lua_Number x = luaL_optnumber(L, 2, 1);
-  lua_pushnumber(L, l_mathop(atan2)(y, x));
+  lua_pushnumber(L, (luaEm_APIImpl->l_mathop(atan2))(y, x));
   return 1;
 }
 
@@ -109,7 +112,7 @@ static int math_ceil (lua_State *L) {
   if (lua_isinteger(L, 1))
     lua_settop(L, 1);  /* integer is its own ceil */
   else {
-    lua_Number d = l_mathop(ceil)(luaL_checknumber(L, 1));
+    lua_Number d = l_ceil(luaL_checknumber(L, 1));
     pushnumint(L, d);
   }
   return 1;
@@ -127,7 +130,7 @@ static int math_fmod (lua_State *L) {
       lua_pushinteger(L, lua_tointeger(L, 1) % d);
   }
   else
-    lua_pushnumber(L, l_mathop(fmod)(luaL_checknumber(L, 1),
+    lua_pushnumber(L, (luaEm_APIImpl->l_mathop(fmod))(luaL_checknumber(L, 1),
                                      luaL_checknumber(L, 2)));
   return 1;
 }
@@ -146,7 +149,7 @@ static int math_modf (lua_State *L) {
   else {
     lua_Number n = luaL_checknumber(L, 1);
     /* integer part (rounds toward zero) */
-    lua_Number ip = (n < 0) ? l_mathop(ceil)(n) : l_floor(n);
+    lua_Number ip = (n < 0) ? l_ceil(n) : l_floor(n);
     pushnumint(L, ip);
     /* fractional part (test needed for inf/-inf) */
     lua_pushnumber(L, (n == ip) ? l_mathop(0.0) : (n - ip));
@@ -172,25 +175,25 @@ static int math_log (lua_State *L) {
   lua_Number x = luaL_checknumber(L, 1);
   lua_Number res;
   if (lua_isnoneornil(L, 2))
-    res = l_mathop(log)(x);
+    res = (luaEm_APIImpl->l_mathop(log))(x);
   else {
     lua_Number base = luaL_checknumber(L, 2);
 #if !defined(LUA_USE_C89)
     if (base == l_mathop(2.0))
-      res = l_mathop(log2)(x);
+      res = (luaEm_APIImpl->l_mathop(log2))(x);
     else
 #endif
     if (base == l_mathop(10.0))
-      res = l_mathop(log10)(x);
+      res = (luaEm_APIImpl->l_mathop(log10))(x);
     else
-      res = l_mathop(log)(x)/l_mathop(log)(base);
+      res = (luaEm_APIImpl->l_mathop(log))(x)/(luaEm_APIImpl->l_mathop(log))(base);
   }
   lua_pushnumber(L, res);
   return 1;
 }
 
 static int math_exp (lua_State *L) {
-  lua_pushnumber(L, l_mathop(exp)(luaL_checknumber(L, 1)));
+  lua_pushnumber(L, (luaEm_APIImpl->l_mathop(exp))(luaL_checknumber(L, 1)));
   return 1;
 }
 

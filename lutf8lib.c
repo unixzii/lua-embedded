@@ -4,6 +4,8 @@
 ** See Copyright Notice in lua.h
 */
 
+#ifdef LUAEM_HAS_UTF8LIB
+
 #define lutf8lib_c
 #define LUA_LIB
 
@@ -289,3 +291,4 @@ LUAMOD_API int luaopen_utf8 (lua_State *L) {
   return 1;
 }
 
+#endif

@@ -41,15 +41,29 @@
 */
 static const luaL_Reg loadedlibs[] = {
   {LUA_GNAME, luaopen_base},
+#ifdef LUAEM_HAS_LOADLIB
   {LUA_LOADLIBNAME, luaopen_package},
+#endif
+#ifdef LUAEM_HAS_COROLIB
   {LUA_COLIBNAME, luaopen_coroutine},
+#endif
   {LUA_TABLIBNAME, luaopen_table},
+#ifdef LUAEM_HAS_IOLIB
   {LUA_IOLIBNAME, luaopen_io},
+#endif
+#ifdef LUAEM_HAS_OSLIB
   {LUA_OSLIBNAME, luaopen_os},
+#endif
+#ifdef LUAEM_HAS_STRLIB
   {LUA_STRLIBNAME, luaopen_string},
+#endif
   {LUA_MATHLIBNAME, luaopen_math},
+#ifdef LUAEM_HAS_UTF8LIB
   {LUA_UTF8LIBNAME, luaopen_utf8},
+#endif
+#ifdef LUAEM_HAS_DBLIB
   {LUA_DBLIBNAME, luaopen_debug},
+#endif
   {NULL, NULL}
 };
 

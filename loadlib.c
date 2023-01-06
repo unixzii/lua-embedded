@@ -8,6 +8,8 @@
 ** systems.
 */
 
+#ifdef LUAEM_HAS_LOADLIB
+
 #define loadlib_c
 #define LUA_LIB
 
@@ -765,3 +767,4 @@ LUAMOD_API int luaopen_package (lua_State *L) {
   return 1;  /* return 'package' table */
 }
 
+#endif

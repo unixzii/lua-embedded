@@ -4,6 +4,8 @@
 ** See Copyright Notice in lua.h
 */
 
+#ifdef LUAEM_HAS_COROLIB
+
 #define lcorolib_c
 #define LUA_LIB
 
@@ -208,3 +210,4 @@ LUAMOD_API int luaopen_coroutine (lua_State *L) {
   return 1;
 }
 
+#endif

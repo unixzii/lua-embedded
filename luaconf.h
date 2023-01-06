@@ -401,6 +401,7 @@
 /* The following definitions are good for most cases here */
 
 #define l_floor(x)		((luaEm_APIImpl->l_mathop(floor))(x))
+#define l_ceil(x)		((luaEm_APIImpl->l_mathop(ceil))(x))
 #define l_pow(a, b)		((luaEm_APIImpl->l_mathop(pow))(a, b))
 #define l_fmod(a, b)	((luaEm_APIImpl->l_mathop(fmod))(a, b))
 #define l_ldexp(a, b)	((luaEm_APIImpl->l_mathop(ldexp))(a, b))

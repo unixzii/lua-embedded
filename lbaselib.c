@@ -111,6 +111,7 @@ static int luaB_tonumber (lua_State *L) {
 }
 
 
+#ifdef LUAEM_HAS_BASELIB_EX
 static int luaB_error (lua_State *L) {
   int level = (int)luaL_optinteger(L, 2, 1);
   lua_settop(L, 1);
@@ -121,6 +122,7 @@ static int luaB_error (lua_State *L) {
   }
   return lua_error(L);
 }
+#endif
 
 
 static int luaB_getmetatable (lua_State *L) {
@@ -337,6 +339,7 @@ static int load_aux (lua_State *L, int status, int envidx) {
 }
 
 
+#ifdef LUAEM_HAS_BASELIB_EX
 static int luaB_loadfile (lua_State *L) {
   const char *fname = luaL_optstring(L, 1, NULL);
   const char *mode = luaL_optstring(L, 2, NULL);
@@ -344,6 +347,7 @@ static int luaB_loadfile (lua_State *L) {
   int status = luaL_loadfilex(L, fname, mode);
   return load_aux(L, status, env);
 }
+#endif
 
 
 /*
@@ -384,6 +388,7 @@ static const char *generic_reader (lua_State *L, void *ud, size_t *size) {
 }
 
 
+#ifdef LUAEM_HAS_BASELIB_EX
 static int luaB_load (lua_State *L) {
   int status;
   size_t l;
@@ -402,6 +407,7 @@ static int luaB_load (lua_State *L) {
   }
   return load_aux(L, status, env);
 }
+#endif
 
 /* }====================================================== */
 
@@ -412,6 +418,7 @@ static int dofilecont (lua_State *L, int d1, lua_KContext d2) {
 }
 
 
+#ifdef LUAEM_HAS_BASELIB_EX
 static int luaB_dofile (lua_State *L) {
   const char *fname = luaL_optstring(L, 1, NULL);
   lua_settop(L, 1);
@@ -420,8 +427,10 @@ static int luaB_dofile (lua_State *L) {
   lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
   return dofilecont(L, 0, 0);
 }
+#endif
 
 
+#ifdef LUAEM_HAS_BASELIB_EX
 static int luaB_assert (lua_State *L) {
   if (l_likely(lua_toboolean(L, 1)))  /* condition is true? */
     return lua_gettop(L);  /* return all arguments */
@@ -433,6 +442,7 @@ static int luaB_assert (lua_State *L) {
     return luaB_error(L);  /* call 'error' */
   }
 }
+#endif
 
 
 static int luaB_select (lua_State *L) {
@@ -469,6 +479,7 @@ static int finishpcall (lua_State *L, int status, lua_KContext extra) {
 }
 
 
+#ifdef LUAEM_HAS_BASELIB_EX
 static int luaB_pcall (lua_State *L) {
   int status;
   luaL_checkany(L, 1);
@@ -477,6 +488,7 @@ static int luaB_pcall (lua_State *L) {
   status = lua_pcallk(L, lua_gettop(L) - 2, LUA_MULTRET, 0, 0, finishpcall);
   return finishpcall(L, status, 0);
 }
+#endif
 
 
 /*
@@ -504,17 +516,11 @@ static int luaB_tostring (lua_State *L) {
 
 
 static const luaL_Reg base_funcs[] = {
-  {"assert", luaB_assert},
   {"collectgarbage", luaB_collectgarbage},
-  {"dofile", luaB_dofile},
-  {"error", luaB_error},
   {"getmetatable", luaB_getmetatable},
   {"ipairs", luaB_ipairs},
-  {"loadfile", luaB_loadfile},
-  {"load", luaB_load},
   {"next", luaB_next},
   {"pairs", luaB_pairs},
-  {"pcall", luaB_pcall},
   {"print", luaB_print},
   {"warn", luaB_warn},
   {"rawequal", luaB_rawequal},
@@ -527,6 +533,15 @@ static const luaL_Reg base_funcs[] = {
   {"tostring", luaB_tostring},
   {"type", luaB_type},
   {"xpcall", luaB_xpcall},
+  /* extra functions */
+#ifdef LUAEM_HAS_BASELIB_EX
+  {"pcall", luaB_pcall},
+  {"load", luaB_load},
+  {"loadfile", luaB_loadfile},
+  {"assert", luaB_assert},
+  {"dofile", luaB_dofile},
+  {"error", luaB_error},
+#endif
   /* placeholders */
   {LUA_GNAME, NULL},
   {"_VERSION", NULL},

@@ -37,8 +37,19 @@ typedef	unsigned long clock_t;
 #endif
 
 #define LUA_MATH_FLOOR l_mathop(floor)
+#define LUA_MATH_CEIL l_mathop(ceil)
+#define LUA_MATH_LOG l_mathop(log)
+#define LUA_MATH_LOG2 l_mathop(log2)
+#define LUA_MATH_LOG10 l_mathop(log10)
+#define LUA_MATH_SIN l_mathop(sin)
+#define LUA_MATH_COS l_mathop(cos)
+#define LUA_MATH_TAN l_mathop(tan)
+#define LUA_MATH_ASIN l_mathop(asin)
+#define LUA_MATH_ACOS l_mathop(acos)
+#define LUA_MATH_ATAN2 l_mathop(atan2)
 #define LUA_MATH_POW l_mathop(pow)
 #define LUA_MATH_FMOD l_mathop(fmod)
+#define LUA_MATH_EXP l_mathop(exp)
 #define LUA_MATH_LDEXP l_mathop(ldexp)
 #define LUA_MATH_FREXP l_mathop(frexp)
 
@@ -47,8 +58,19 @@ typedef	unsigned long clock_t;
   LUAEM_API_DEF_EMIT(clock_t, clock, (void), ()) \
   LUAEM_API_DEF_EMIT(time_t, time, (time_t *tloc), (tloc)) \
   LUAEM_API_DEF_EMIT(double, LUA_MATH_FLOOR, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_CEIL, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_LOG, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_LOG2, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_LOG10, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_SIN, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_COS, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_TAN, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_ASIN, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_ACOS, (double x), (x)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_ATAN2, (double x, double y), (x, y)) \
   LUAEM_API_DEF_EMIT(double, LUA_MATH_POW, (double a, double b), (a, b)) \
   LUAEM_API_DEF_EMIT(double, LUA_MATH_FMOD, (double a, double b), (a, b)) \
+  LUAEM_API_DEF_EMIT(double, LUA_MATH_EXP, (double x), (x)) \
   LUAEM_API_DEF_EMIT(double, LUA_MATH_LDEXP, (double a, int b), (a, b)) \
   LUAEM_API_DEF_EMIT(double, LUA_MATH_FREXP, (double a, int *b), (a, b)) \
   LUAEM_API_DEF_EMIT(LUA_NUMBER, str2number, (const char *s, char *endptr), (s, endptr)) \
@@ -57,7 +79,9 @@ typedef	unsigned long clock_t;
   LUAEM_API_DEF_EMIT(void, longjmp, (luaEm_jmp_buf *env, int status), (env, status)) \
   LUAEM_API_DEF_EMIT(void *, realloc, (void *ptr, size_t size), (ptr, size)) \
   LUAEM_API_DEF_EMIT(void, free, (void *ptr), (ptr)) \
-  LUAEM_API_DEF_EMIT(void, vwritestringerror, (const char *fmt, va_list ap), (fmt, ap))
+  LUAEM_API_DEF_EMIT(void, vwritestringerror, (const char *fmt, va_list ap), (fmt, ap)) \
+  LUAEM_API_DEF_EMIT(void, writestring, (const char *s, size_t size), (s, size)) \
+  LUAEM_API_DEF_EMIT(void, abort, (void), ())
 
 typedef struct luaEm_API {
 #define LUAEM_API_DEF_EMIT(tret, name, args, cargs) \
