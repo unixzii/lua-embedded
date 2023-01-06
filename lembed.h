@@ -20,7 +20,12 @@
 #endif
 
 #ifndef LUAEM_JMP_BUF_SIZE
+#if __has_include(<setjmp.h>)
+#include <setjmp.h>
+#define LUAEM_JMP_BUF_SIZE (sizeof(jmp_buf))
+#else
 #define LUAEM_JMP_BUF_SIZE (sizeof(void *) * 32)
+#endif
 #endif
 
 typedef union {
@@ -52,6 +57,11 @@ typedef	unsigned long clock_t;
 #define LUA_MATH_EXP l_mathop(exp)
 #define LUA_MATH_LDEXP l_mathop(ldexp)
 #define LUA_MATH_FREXP l_mathop(frexp)
+
+// Workaround:
+// Some platforms has macro definition of setjmp, just undef
+// it since we don't use it directly.
+#undef setjmp
 
 #define LUAEM_API_DEFS \
   LUAEM_API_DEF_EMIT(char, getlocaledecpoint, (void), ()) \
